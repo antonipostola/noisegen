@@ -1,7 +1,7 @@
 # Noise Generator
 This is a simple audio noise generator which uses leaky integration of white noise. The program allows for specifying the duration, order of integration, and leak factor of the noise file, which is stored in WAV format.
 
-# Compilation
+## Compilation
 The program has no external dependencies and relies only on the C standard library. Therefore, I have not included a build system. To compile, simply add `noisegen.c` as a source, `noisegen` as the executable, and link to libm.
 
 On UNIX based systems:
@@ -9,7 +9,7 @@ On UNIX based systems:
 cc -o noisegen noisegen.c -lm
 ```
 
-# Usage
+## Usage
 ```
 Usage: noisegen [OPTION]... FILE
 Generates audio noise using leaky integration and stores the result in WAV format.
