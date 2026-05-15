@@ -9,7 +9,6 @@
 #include <string.h>
 
 
-
 typedef uint16_t int2;
 typedef uint32_t int4;
 
@@ -291,7 +290,7 @@ void write_data(FILE *f, NoiseSettings *settings){
 		}
 		
 		int c = s % settings->channels;
-		values[0 + c] = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
+		VALUE_AT(0, c) = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
 		for(int o = 1; o <= settings->order; o++) {
 
 			VALUE_AT(o, c) *= settings->leak_factor;
