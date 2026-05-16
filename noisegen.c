@@ -272,6 +272,7 @@ void write_data(FILE *f, NoiseSettings *settings){
 
 	long cksize_pos = ftell(f);
 	w4i(f, 0); // placeholder
+	
 
 	long total_samples = settings->duration * settings->sample_rate * settings->channels;
 
