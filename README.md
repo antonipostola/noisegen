@@ -9,6 +9,14 @@ On UNIX based systems:
 cc -o noisegen noisegen.c -lm
 ```
 
+On Windows:
+```
+# using gcc
+gcc -o noisegen.exe noisegen.c -lm
+# using msvc
+cl /Fe:noisegen.exe noisegen.c
+```
+
 ## Usage
 ```
 Usage: noisegen [OPTION]... FILE
@@ -18,7 +26,7 @@ Example: noisegen --duration 30.0 --order 5 --leak 0.98 output.wav
 Options:
   -h, --help               Display this help dialog and exit
 
-  -t, --duration SECONDS   The duration of the output in seconds (float, default: 10.0)
+  -t, --duration SECONDS   The duration of the output in seconds (float between 0 and 20,000, default: 10.0)
 
   -n, --order N            The order of integration of the noise (non-negative integer, default: 1)
                            E.g. white noise = 0, brown noise = 1
