@@ -13,6 +13,7 @@ On Windows:
 ```
 # using gcc
 gcc -o noisegen.exe noisegen.c -lm
+
 # using msvc
 cl /Fe:noisegen.exe noisegen.c
 ```
