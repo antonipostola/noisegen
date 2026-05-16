@@ -110,7 +110,7 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 		print_help_suggestion_dialog();
 	}
 
-#define NEXT_ARG() if(i+1 >= argc) { printf("Invalid Arguments: %s must be followed with a value", argv[i]); exit(1); } i++
+#define NEXT_ARG() if(i+1 >= argc) { printf("Invalid argument:s: %s must be followed with a value", argv[i]); exit(1); } i++
 
 	for(int i = 1; i < argc; i++) {
 		if( strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0 ) {
@@ -121,11 +121,11 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 			NEXT_ARG();
 			char *endptr; float duration = strtof(argv[i], &endptr);
 			if(*endptr != '\0') {
-				printf("Invalid Argument '%s' for %s\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			if(duration < 0 || duration > 20000) {
-				printf("Invalid Argument '%s' for %s, must be between 0 and 20,000\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s, must be between 0 and 20,000\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			settings.duration = duration;
@@ -136,11 +136,11 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 			NEXT_ARG();
 			char *endptr; long order = strtol(argv[i], &endptr, 10);
 			if(*endptr != '\0') {
-				printf("Invalid Argument '%s' for %s\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			if(order < 0) {
-				printf("Invalid Argument '%s' for %s, must not be negative\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s, must not be negative\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			settings.order = order;
@@ -151,11 +151,11 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 			NEXT_ARG();
 			char *endptr; float leak_factor = strtof(argv[i], &endptr);
 			if(*endptr != '\0') {
-				printf("Invalid Argument '%s' for %s\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			if(leak_factor < 0.f || leak_factor > 1.f) {
-				printf("Invalid Argument '%s' for %s, must be between 0.0 and 1.0\n", argv[i], argv[i-1]);
+				printf("Invalid argument: '%s' for %s, must be between 0.0 and 1.0\n", argv[i], argv[i-1]);
 				print_help_suggestion_dialog();
 			}
 			settings.leak_factor = leak_factor;
@@ -163,12 +163,12 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 		}
 
 		if(argv[i][0] == '-') {
-			printf("Invalid Argument '%s'\n", argv[i]);
+			printf("Invalid argument: '%s'\n", argv[i]);
 			print_help_suggestion_dialog();
 		}
 
 		if(i != argc-1) {
-			printf("Invalid Argument '%s', output file must be specified as the final argument\n", argv[i]);
+			printf("Invalid argument: '%s', output file must be specified as the final argument\n", argv[i]);
 			print_help_suggestion_dialog();
 		}
 
@@ -178,7 +178,7 @@ NoiseSettings parse_options(int argc, char *argv[]) {
 #undef NEXT_ARG
 
 	if(settings.output_path == NULL) {
-		puts("Invalid Arguments: no output file specified");
+		puts("Invalid arguments: no output file specified");
 		print_help_suggestion_dialog();
 	}
 	
