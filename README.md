@@ -34,3 +34,8 @@ Options:
 
   -l, --leak FACTOR        The leak factor of the leaky integrator (float between 0.0 and 1.0, default: 0.99)
 ```
+
+## Additional Notes
+The sound produced by this program is peak normalised to about -6dB. This normalisation is operated on segments of 5 seconds and smoothened between them. A quirk of this is that a large sweeping modulation effect may be present in the noise depending on the parameters set. Whether that is a positive thing is up to you to decide.
+
+Also, the program was made assuming a little-endian system, therefore running it on a big-endian system will produce a corrupt WAV file.
