@@ -229,6 +229,12 @@ void finalise_header(FILE *f){
 	
 	fseek(f, 0, SEEK_END);
 	long file_size = ftell(f);
+
+	if( file_size % 2 != 0 ) {
+		unsigned char pad = 0;
+		fwrite(&pad, 1, 1, f);
+		file_size++;
+	}
 	
 	fseek(f, 4, SEEK_SET);
 	w4i(f, file_size - 8);
@@ -276,7 +282,7 @@ void write_data(FILE *f, NoiseSettings *settings){
 
 	long total_samples = settings->duration * settings->sample_rate * settings->channels;
 
-	int flush_size = settings->sample_rate * settings->channels; // flush 5 second of audio per flush
+	int flush_size = settings->sample_rate * settings->channels * 5; // flush 5 second of audio per flush
 	float *sample_buffer = malloc(flush_size * sizeof(float)); // stores samples to be flushed to file (and normalised)
 
 	float *values = calloc( (settings->order + 1) * settings->channels, sizeof(float) ); // stores displacements for each order of integration
@@ -286,10 +292,6 @@ void write_data(FILE *f, NoiseSettings *settings){
 	int s;
 	for(s = 0; s < total_samples; s++) {
 	   
-		if(s > 0 && s % flush_size == 0) {
-			flush_samples(f, sample_buffer, flush_size, settings);
-		}
-		
 		int c = s % settings->channels;
 		VALUE_AT(0, c) = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
 		for(int o = 1; o <= settings->order; o++) {
@@ -301,15 +303,17 @@ void write_data(FILE *f, NoiseSettings *settings){
 
 		float sample = VALUE_AT(settings->order, c);
 		sample_buffer[s % flush_size] = sample;
+
+		if( s % flush_size == flush_size-1 ) {
+			flush_samples(f, sample_buffer, flush_size, settings);
+		}
 			
 	}
 
-	if( s % flush_size == 0 ) {
-		flush_samples(f, sample_buffer, flush_size, settings);
-	}
-	else {
+	if( s % flush_size > 0 ) {
 		flush_samples(f, sample_buffer, s % flush_size, settings);
 	}
+
 
 #undef VALUE_AT
 
@@ -320,7 +324,7 @@ void write_data(FILE *f, NoiseSettings *settings){
 	long end_pos = ftell(f);
 
 	fseek(f, cksize_pos, SEEK_SET);
-	w4i(f, end_pos - cksize_pos);
+	w4i(f, end_pos - cksize_pos - 4);
 	
 }
 
