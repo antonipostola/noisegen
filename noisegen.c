@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include <stdint.h>
+#include <float.h>
 
 #include <math.h>
 #include <time.h>
@@ -244,7 +245,7 @@ void finalise_header(FILE *f){
 
 void flush_samples(FILE *f, float *sample_buffer, size_t flush_size, NoiseSettings *settings) {
 	
-	float max_value = 0.f;
+    float max_value = FLT_EPSILON;  // avoid division by zero
 	for(int i = 0; i < flush_size; i++) { // find max value for normalisation
 		
 		if( fabsf( sample_buffer[i] ) > max_value ) {
@@ -332,7 +333,7 @@ void write_data(FILE *f, NoiseSettings *settings){
 
 void check_file_exists(char *output_path) {
 	FILE *fp = fopen(output_path, "r");
-    if(!fp) {
+	if(!fp) {
 		return;
 	}
 	fclose(fp);
